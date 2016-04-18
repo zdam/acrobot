@@ -6,8 +6,8 @@ a link to wikipedia for the said acronym.
 
 You can ask acrobot to ignore an acronym using the ignore command.
 e.g. @acrobot ignore xmpp
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 if (!process.env.slack_token || !process.env.firebase_token ) {
     console.log('Error: Specify slack_token and firebase_token in environment');

@@ -1,3 +1,8 @@
+/*
+ Handles the finding of acronyms and the maintenance of an acronym blacklist.
+ 
+*/
+
 var _ = require('lodash');
 var request = require('request');  
 var jsdom = require('jsdom');

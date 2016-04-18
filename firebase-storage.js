@@ -1,7 +1,7 @@
 /*
  Firebase storage for acrobot.
  
- This is a generic storage mechanims, acrobot is only using it for storage of ignored acronyms at the moment.
+ This is a generic storage mechanism, acrobot is only using it for storage of ignored acronyms at the moment.
 */
 
 var Firebase = require('firebase');
