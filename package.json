@@ -1,0 +1,18 @@
+{
+  "name": "acrobot",
+  "version": "1.0.0",
+  "description": "A Slack Bot that provides definitions of acronyms used in IT",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Webber",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "botkit": "^0.1.1",
+    "firebase": "^2.4.2",
+    "jsdom": "^8.3.1",
+    "lodash": "^4.11.1",
+    "request": "^2.71.0"
+  }
+}
