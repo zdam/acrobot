@@ -9,8 +9,8 @@ e.g. @acrobot ignore xmpp
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-if (!process.env.slack_token || !process.env.firebase_token ) {
-    console.log('Error: Specify slack_token and firebase_token in environment');
+if (!process.env.slack_token ) {
+    console.log('Error: Specify slack_tokenin environment');
     process.exit(1);
 }
 
@@ -19,18 +19,22 @@ var Botkit = require('BotKit');
 
 // local acrobot - acronym processing and firebase storage
 var firebaseConfig = {
-    firebase_uri:'https://acrobot.firebaseio.com/', 
+    firebase_uri: process.env.firebase_url, 
     firebase_secretToken: process.env.firebase_token
 }
-var firebaseStorageProvider = require('./firebase-storage.js')(firebaseConfig);
+
 var acronyms = require('./acronym-finder.js')();
 
 acronyms.ensureAcronymsBuilt();
 
-var controller = Botkit.slackbot({
-    debug: false,
-    storage: firebaseStorageProvider
-});
+var slackBotOptions = {
+    debug: false
+};
+if (firebaseConfig.firebase_uri.length > 0) {
+    var firebaseStorageProvider = require('./firebase-storage.js')(firebaseConfig);
+    slackBotOptions.storage = firebaseStorageProvider;
+}
+var controller = Botkit.slackbot(slackBotOptions);
 
 var bot = controller.spawn({
     token: process.env.slack_token

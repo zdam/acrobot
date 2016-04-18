@@ -11,7 +11,7 @@ module.exports = function(unusedConfig) {
 
     var acronyms = [];
     var acronymBlackList = [];
-    var defaultAcronymBlackList = ['am',' as', 'at', 'is', 'it', 'me', 'os'];   
+    var defaultAcronymBlackList = ['am','as', 'at', 'is', 'it', 'me', 'os'];   
 
     var haveAcronymsLoaded = false;
     var ensureAcronymsBuilt = function() {
@@ -47,6 +47,12 @@ module.exports = function(unusedConfig) {
     var ensureBlacklistIsBuilt = function(message, controller) {
         if (isBlacklistBuilt)             
             return true;
+            
+        if (typeof(controller.storage.isAuthorised) !== typeof(Function)) {
+            // We are not using Firebase storage
+            acronymBlackList = defaultAcronymBlackList;
+            return true;
+        }            
             
         if (!controller.storage.isAuthorised()) {
             acronymBlackList = defaultAcronymBlackList;
