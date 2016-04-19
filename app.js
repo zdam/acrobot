@@ -42,7 +42,7 @@ function buildController(env) {
     };
     
     // Hook up Firebase storage if it has been configured
-    if (env.firebase_url.length > 0) {
+    if (env.firebase_url && env.firebase_url.length > 0) {
         var firebaseConfig = {
             firebase_uri: process.env.firebase_url, 
             firebase_secretToken: process.env.firebase_token
