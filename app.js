@@ -4,37 +4,24 @@ A Slack Bot using Botkit
 Acrobot listens for any acronyms that it knows about and provides
 a link to wikipedia for the said acronym. 
 
-You can ask acrobot to ignore an acronym using the ignore command.
+You can also ask acrobot to ignore an acronym using the ignore command.
 e.g. @acrobot ignore xmpp
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 if (!process.env.slack_token ) {
-    console.log('Error: Specify slack_tokenin environment');
+    console.log('Error: Specify slack_token in environment');
     process.exit(1);
 }
 
 // 3rd party libs
 var Botkit = require('BotKit');
 
-// local acrobot - acronym processing and firebase storage
-var firebaseConfig = {
-    firebase_uri: process.env.firebase_url, 
-    firebase_secretToken: process.env.firebase_token
-}
-
+// acrobot functionality
 var acronyms = require('./acronym-finder.js')();
-
 acronyms.ensureAcronymsBuilt();
 
-var slackBotOptions = {
-    debug: false
-};
-if (firebaseConfig.firebase_uri.length > 0) {
-    var firebaseStorageProvider = require('./firebase-storage.js')(firebaseConfig);
-    slackBotOptions.storage = firebaseStorageProvider;
-}
-var controller = Botkit.slackbot(slackBotOptions);
+var controller = buildController(process.env);
 
 var bot = controller.spawn({
     token: process.env.slack_token
@@ -48,3 +35,22 @@ controller.hears(['ignore (.*)'], 'direct_message,direct_mention,mention', funct
 controller.hears(['(.*)'], 'direct_message,direct_mention,mention,ambient', function(bot, message) {
     acronyms.findAcronyms(bot, message, controller);
 });
+
+function buildController(env) {
+    var slackBotOptions = {
+        debug: false
+    };
+    
+    // Hook up Firebase storage if it has been configured
+    if (env.firebase_url.length > 0) {
+        var firebaseConfig = {
+            firebase_uri: process.env.firebase_url, 
+            firebase_secretToken: process.env.firebase_token
+        }
+        
+        var firebaseStorageProvider = require('./firebase-storage.js')(firebaseConfig);
+        slackBotOptions.storage = firebaseStorageProvider;
+    }
+    
+    return Botkit.slackbot(slackBotOptions);    
+}

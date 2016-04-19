@@ -17,8 +17,8 @@
 			"env": {
 				"NODE_ENV": "development",
 				"SLACK_TOKEN": "!!!!! ENTER YOUR SLACK BOT TOKEN HERE !!!!!",
-				"FIREBASE_URL": "", // Optional, if left blank local storage is used
-				"FIREBASE_TOKEN": "" // Optional, if left blank local storage is used
+				"FIREBASE_URL": "", // Optional, if left blank no persistant storage is used
+				"FIREBASE_TOKEN": "" // Optional, if left blank no persistant storage is used
 			},
 			"externalConsole": false,
 			"sourceMaps": false,
