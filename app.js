@@ -28,7 +28,7 @@ var bot = controller.spawn({
 }).startRTM();
 
 controller.hears(['ignore (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
-    var acronymToIgnore = message.match[1];
+    var acronymToIgnore = message.match[1].toLowerCase();
     acronyms.addToBlacklist(acronymToIgnore, bot, message, controller);    
 });
 

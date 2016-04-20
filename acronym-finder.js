@@ -102,12 +102,12 @@ module.exports = function(unusedConfig) {
             ensureBlacklistIsBuilt(message, controller);
             
             for (j = 0; j < words.length; j++) {
-                var currentWord = words[j];
+                var currentWord = words[j].toLowerCase();
                 
                 if (_.indexOf(acronymBlackList, currentWord) == -1){
                     for (i = 0; i < acronyms.length; i++) {
-                        var text = acronyms[i].text;
-                        if (text.toLowerCase() == currentWord.toLowerCase()) {
+                        var text = acronyms[i].text.toLowerCase();
+                        if (text == currentWord) {
                             bot.reply(message, 'https://en.wikipedia.org' + acronyms[i].href);            
                             foundAcronym = true;
                             break;                 
