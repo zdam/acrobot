@@ -21,19 +21,34 @@ var Botkit = require('BotKit');
 var acronyms = require('./acronym-finder.js')();
 acronyms.ensureAcronymsBuilt();
 
+var isAwake = true;
 var controller = buildController(process.env);
 
 var bot = controller.spawn({
     token: process.env.slack_token
 }).startRTM();
 
+controller.hears(['wake'], 'direct_message,direct_mention,mention,ambient', function(bot, message) {
+    bot.reply(message, 'Good Morning');
+    isAwake = true;
+});
+
+controller.hears(['sleep'], 'direct_message,direct_mention,mention,ambient', function(bot, message) {
+    bot.reply(message, 'Night night');
+    isAwake = false;
+});
+
 controller.hears(['ignore (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
-    var acronymToIgnore = message.match[1].toLowerCase();
-    acronyms.addToBlacklist(acronymToIgnore, bot, message, controller);    
+    if (isAwake) {
+        var acronymToIgnore = message.match[1].toLowerCase();
+        acronyms.addToBlacklist(acronymToIgnore, bot, message, controller);        
+    }        
 });
 
 controller.hears(['(.*)'], 'direct_message,direct_mention,mention,ambient', function(bot, message) {
-    acronyms.findAcronyms(bot, message, controller);
+    if (isAwake) {
+        acronyms.findAcronyms(bot, message, controller);
+    }
 });
 
 function buildController(env) {
