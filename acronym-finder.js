@@ -31,7 +31,7 @@ module.exports = function(unusedConfig) {
 
                     // jQuery is now loaded on the jsdom window created from 'agent.body'
                     // now for some jquery to pull all the acroyms
-                    $('a').each(function(){
+                    $('#mw-content-text').find('a').each(function(){
                         var current = $(this);
                         if (current.text().length > 1){
                             acronyms.push({text: current.text(), 'href': current.attr('href')})
